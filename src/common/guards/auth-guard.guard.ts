@@ -8,16 +8,28 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { ClsService } from 'nestjs-cls';
 import { IAppConfig } from '@app/core/config';
+import { Reflector } from '@nestjs/core';
+import { EXCLUDE_FROM_AUTH_KEY } from '../decorators/exclude-auth.decorator';
 
 @Injectable()
-export class AuthGuardGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(
     private configService: ConfigService,
     private jwtService: JwtService,
     private readonly appStorage: ClsService,
+    private reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    // exclude from auth , useful for routes that don't require authentication and want to be public
+    const excludeFromAuth = this.reflector.getAllAndOverride<boolean>(
+      EXCLUDE_FROM_AUTH_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+    if (excludeFromAuth) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {

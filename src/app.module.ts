@@ -1,20 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ClsModule } from 'nestjs-cls';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { CoreModule } from '@app/core/core.module';
 import { UsersModule } from '@app/modules/users/users.module';
+import { GeneresModule } from '@app/modules/generes/generes.module';
 
 @Module({
   imports: [
-    // simulate localstorage , for share req user object accross the cycle of request
-    ClsModule.forRoot({
-      middleware: {
-        // automatically mount to all routes
-        mount: true,
-      },
-    }),
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
@@ -24,7 +17,8 @@ import { UsersModule } from '@app/modules/users/users.module';
     ]),
     EventEmitterModule.forRoot(),
     CoreModule,
-    UsersModule
+    UsersModule,
+    GeneresModule,
   ],
   providers: [
     {
