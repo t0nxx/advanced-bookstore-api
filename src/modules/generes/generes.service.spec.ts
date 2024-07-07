@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GeneresService } from './generes.service';
 import { PrismaService } from '@app/core/database/prisma.service';
-import { ClsContextOptions, ClsService } from 'nestjs-cls';
+import { ClsService } from 'nestjs-cls';
 import { prismaServiceMock } from '@app/common/mocks/prisma-service-mock';
 import { ClsServiceMock } from '@app/common/mocks/cls-service-mock';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,7 +15,6 @@ import {
 
 describe('GeneresService', () => {
   let service: GeneresService;
-  let appStorage: ClsService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -26,7 +25,6 @@ describe('GeneresService', () => {
     }).compile();
 
     service = module.get<GeneresService>(GeneresService);
-    appStorage = module.get<ClsService>(ClsService);
 
     // simulate current user object in storage
     ClsServiceMock.get.mockReturnValue({
