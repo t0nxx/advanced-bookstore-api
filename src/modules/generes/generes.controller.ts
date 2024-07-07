@@ -18,7 +18,6 @@ import { ResponseSerializeInterceptor } from '@app/common/interceptors/response-
 import { ReadGenereDto } from './dto/read-genere.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@app/common/guards/auth-guard.guard';
-import { ExcludeFromAuth } from '@app/common/decorators/exclude-auth.decorator';
 import { PaginationParamsDto } from '@app/common/dto/pagination.dto';
 
 @Controller('generes')
@@ -35,7 +34,6 @@ export class GeneresController {
   }
 
   @Get()
-  @ExcludeFromAuth()
   findAll(@Query() pagination: PaginationParamsDto) {
     return this.generesService.findAll(pagination);
   }

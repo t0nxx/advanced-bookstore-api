@@ -22,15 +22,17 @@ model User {
   updatedAt DateTime @updatedAt
 
   // relations
-  Genre  Genre[]
-  Author Author[]
+  genres  Genre[]
+  authors Author[]
+  books   Book[]
 }
 
 model Genre {
   id     String @id @default(uuid())
   name   String
   userId String
-  User   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+  books  Book[]
 }
 
 model Author {
@@ -41,5 +43,21 @@ model Author {
   userId    String
 
   // relations
-  User User @relation(fields: [userId], references: [id])
+  user  User   @relation(fields: [userId], references: [id])
+  books Book[]
+}
+
+model Book {
+  id              String   @id @default(uuid())
+  title           String
+  description     String   @db.Text
+  publicationDate DateTime
+  genreId         String
+  authorId        String
+  userId          String
+
+  // relations
+  user   User   @relation(fields: [userId], references: [id])
+  genre  Genre  @relation(fields: [genreId], references: [id])
+  author Author @relation(fields: [authorId], references: [id])
 }

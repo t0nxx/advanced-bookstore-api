@@ -31,6 +31,7 @@ export class GeneresService {
 
   async findAll(pagination: PaginationParamsDto) {
     const genres = await this.db.genre.findMany({
+      where: { userId: this.appStorage.get('user').id },
       take: pagination.limit,
       skip: (pagination.page - 1) * pagination.limit,
     });

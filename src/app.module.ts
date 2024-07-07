@@ -6,6 +6,7 @@ import { CoreModule } from '@app/core/core.module';
 import { UsersModule } from '@app/modules/users/users.module';
 import { GeneresModule } from '@app/modules/generes/generes.module';
 import { AuthorModule } from '@app/modules/author/author.module';
+import { BookModule } from '@app/modules/book/book.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthorModule } from '@app/modules/author/author.module';
     UsersModule,
     GeneresModule,
     AuthorModule,
+    BookModule,
   ],
   providers: [
     {
