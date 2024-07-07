@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 import { CoreModule } from '@app/core/core.module';
 import { UsersModule } from '@app/modules/users/users.module';
 import { GeneresModule } from '@app/modules/generes/generes.module';
@@ -17,7 +16,6 @@ import { BookModule } from '@app/modules/book/book.module';
         limit: 20,
       },
     ]),
-    EventEmitterModule.forRoot(),
     CoreModule,
     UsersModule,
     GeneresModule,

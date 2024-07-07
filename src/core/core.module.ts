@@ -5,12 +5,18 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { IAppConfig } from './config';
 import { ClsModule } from 'nestjs-cls';
+import { AppCacheModule } from './cache/app-cache.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Global()
 @Module({
   imports: [
     DatabaseModule,
     AppConfigModule,
+    AppCacheModule,
+    EventEmitterModule.forRoot({
+      global: true,
+    }),
     // simulate localstorage , for share req user object accross the cycle of request
     ClsModule.forRoot({
       global: true,

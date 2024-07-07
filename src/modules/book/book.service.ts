@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -10,12 +11,15 @@ import { ResponseDto } from '@app/common/dto/response.dto';
 import { PaginationParamsDto } from '@app/common/dto/pagination.dto';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { BookDispatchedEvent } from './events/book-dispatched.event';
 
 @Injectable()
 export class BookService {
   constructor(
     private readonly db: PrismaService,
     private readonly appStorage: ClsService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
   async create(createBookDto: CreateBookDto) {
     // get current user id
@@ -41,6 +45,11 @@ export class BookService {
         userId: currentUser.id,
       },
     });
+
+    this.eventEmitter.emit(
+      'book.created',
+      new BookDispatchedEvent(book.id, book.title),
+    );
     return new ResponseDto(book, 'book created successfully');
   }
 
@@ -81,6 +90,8 @@ export class BookService {
     return new ResponseDto(books, 'book found successfully');
   }
   async findOne(id: string) {
+    // cache keys is dynamically changed ex
+    // '/book/2da0b4481-d424-4de6-b8af-872e72a6628f'
     const book = await this.db.book.findUnique({
       where: { id },
       include: {
@@ -125,6 +136,10 @@ export class BookService {
       where: { id },
       data: updateBookDto,
     });
+    this.eventEmitter.emit(
+      'book.updated',
+      new BookDispatchedEvent(book.id, book.title),
+    );
     return new ResponseDto(updated, 'book updated successfully');
   }
 
@@ -140,6 +155,11 @@ export class BookService {
     const deleted = await this.db.book.delete({
       where: { id },
     });
+
+    this.eventEmitter.emit(
+      'book.deleted',
+      new BookDispatchedEvent(book.id, book.title),
+    );
     return new ResponseDto({}, 'book deleted successfully');
   }
 
