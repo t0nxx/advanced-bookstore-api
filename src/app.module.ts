@@ -5,6 +5,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { CoreModule } from '@app/core/core.module';
 import { UsersModule } from '@app/modules/users/users.module';
 import { GeneresModule } from '@app/modules/generes/generes.module';
+import { AuthorModule } from '@app/modules/author/author.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GeneresModule } from '@app/modules/generes/generes.module';
     CoreModule,
     UsersModule,
     GeneresModule,
+    AuthorModule,
   ],
   providers: [
     {

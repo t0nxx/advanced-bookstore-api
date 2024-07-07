@@ -22,7 +22,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   // relations
-  Genre Genre[]
+  Genre  Genre[]
+  Author Author[]
 }
 
 model Genre {
@@ -30,4 +31,15 @@ model Genre {
   name   String
   userId String
   User   User   @relation(fields: [userId], references: [id])
+}
+
+model Author {
+  id        String   @id @default(uuid())
+  name      String
+  biography String   @db.Text
+  birthDate DateTime
+  userId    String
+
+  // relations
+  User User @relation(fields: [userId], references: [id])
 }
