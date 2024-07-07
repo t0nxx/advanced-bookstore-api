@@ -62,7 +62,7 @@ describe('GeneresService', () => {
         name: 'test genere',
         userId: ClsServiceMock.get('user').id,
       });
-      const response = await service.findOne(uuidv4());
+      const response = await service.findOne(toFoundId);
       expect(response.data.id).toEqual(toFoundId);
     });
 
