@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { CoreModule } from '@app/core/core.module';
 import { UsersModule } from '@app/modules/users/users.module';
 import { GeneresModule } from '@app/modules/generes/generes.module';
 import { AuthorModule } from '@app/modules/author/author.module';
 import { BookModule } from '@app/modules/book/book.module';
+import { CentralizedExceptionFilter } from '@app/common/exception-filters/centralized-exception-filter.';
 
 @Module({
   imports: [
@@ -26,6 +27,11 @@ import { BookModule } from '@app/modules/book/book.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+
+    {
+      provide: APP_FILTER,
+      useClass: CentralizedExceptionFilter,
     },
   ],
 })

@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing';
 import { CoreModule } from '@app/core/core.module';
 import { IAppConfig } from '@app/core/config';
 
-describe('AuthGuard', () => {
+describe('AuthGuard Test', () => {
   let guard: AuthGuard;
   let configService: ConfigService;
   let jwtService: JwtService;
@@ -42,6 +42,8 @@ describe('AuthGuard', () => {
       },
     );
     const context = {
+      getHandler: () => ({}),
+      getClass: () => ({}),
       switchToHttp: () => ({
         getRequest: () => ({
           headers: {
@@ -57,6 +59,8 @@ describe('AuthGuard', () => {
 
   it('should throw UnauthorizedException with an invalid token', async () => {
     const context = {
+      getHandler: () => ({}),
+      getClass: () => ({}),
       switchToHttp: () => ({
         getRequest: () => ({
           headers: {
@@ -73,6 +77,8 @@ describe('AuthGuard', () => {
 
   it('should throw UnauthorizedException without a token', async () => {
     const context = {
+      getHandler: () => ({}),
+      getClass: () => ({}),
       switchToHttp: () => ({
         getRequest: () => ({
           headers: {},
