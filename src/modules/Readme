@@ -1,0 +1,8 @@
+## Modules Folder
+
+this folder contains bussiness logic modules encapsulated in folder with its name
+
+- users
+- auth 
+- books
+- ..etc

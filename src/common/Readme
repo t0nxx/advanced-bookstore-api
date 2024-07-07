@@ -1,0 +1,21 @@
+## Common Folder
+
+this folder contains common and global files for all projects like
+
+- global guards
+
+- global pipes
+
+- global interceptors
+
+- global filters
+
+- global decorators
+
+- global dtos
+
+- constants
+
+- utils and helpers
+
+- ...etc
