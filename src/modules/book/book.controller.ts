@@ -23,7 +23,6 @@ import { ExcludeFromAuth } from '@app/common/decorators/exclude-auth.decorator';
 import { CacheInterceptor, CacheKey } from '@nestjs/cache-manager';
 @Controller('book')
 @ApiTags('books')
-@ApiBearerAuth()
 @UseGuards(AuthGuard)
 @UseInterceptors(new ResponseSerializeInterceptor(ReadBookDto))
 export class BookController {
@@ -39,7 +38,6 @@ export class BookController {
   @UseInterceptors(CacheInterceptor)
   @Get()
   findAll(@Query() pagination: PaginationParamsDto) {
-    console.log('from controller');
     return this.bookService.findAll(pagination);
   }
   @ExcludeFromAuth()
@@ -49,11 +47,13 @@ export class BookController {
     return this.bookService.findOne(id);
   }
 
+  @ApiBearerAuth()
   @Post()
   create(@Body() createBookDto: CreateBookDto) {
     return this.bookService.create(createBookDto);
   }
 
+  @ApiBearerAuth()
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -62,6 +62,7 @@ export class BookController {
     return this.bookService.update(id, updateBookDto);
   }
 
+  @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.bookService.remove(id);

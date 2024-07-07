@@ -9,6 +9,26 @@ export class BookListner {
 
   @OnEvent('book.created', { async: true })
   async handleBookCreated(event: BookDispatchedEvent) {
+    await this.clearBooksCache();
+    // ToDo
+    // notify users about new book
+  }
+
+  @OnEvent('book.updated', { async: true })
+  async handleBookUpdated(event: BookDispatchedEvent) {
+    const key = await this.cacheManager.del('/books/' + event.id);
+  }
+
+  @OnEvent('book.deleted', { async: true })
+  async handleBookDeleted(event: BookDispatchedEvent) {
+    // clear single book cache
+    const key = await this.cacheManager.del('/books/' + event.id);
+
+    // clear all books cache
+    await this.clearBooksCache();
+  }
+
+  private async clearBooksCache() {
     // clear get all books cache
 
     // cache keys is dynamically changed based on query pagination ex
@@ -22,18 +42,5 @@ export class BookListner {
     // delete all keys in parallel
     const promises = booksKeys.map((key) => this.cacheManager.del(key));
     await Promise.all(promises);
-
-    // ToDo
-    // notify users about new book
-  }
-
-  @OnEvent('book.updated', { async: true })
-  async handleBookUpdated(event: BookDispatchedEvent) {
-    const key = await this.cacheManager.del('/books/' + event.id);
-  }
-
-  @OnEvent('book.deleted', { async: true })
-  async handleBookDeleted(event: BookDispatchedEvent) {
-    const key = await this.cacheManager.del('/books/' + event.id);
   }
 }
