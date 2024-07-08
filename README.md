@@ -56,3 +56,6 @@ $ npm run start:dev
 
 - visit swagger api doc in your browser 
 http://127.0.0.1:3003/docs
+
+- instructions video
+https://youtu.be/lQAj-XSO49Q
