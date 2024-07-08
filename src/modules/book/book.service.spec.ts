@@ -64,7 +64,7 @@ describe('BookService', () => {
         id: genreId,
         name: 'test genere',
         userId: ClsServiceMock.get('user').id,
-      }); 
+      });
       // mock prisma service create
       prismaServiceMock.book.create.mockResolvedValue({
         id: uuidv4(),
@@ -110,6 +110,76 @@ describe('BookService', () => {
       expect(response.data.id).toEqual(toFoundId);
     });
 
+    it('should get all Book', async () => {
+      let allbooks = [
+        [
+          {
+            id: uuidv4(),
+            title: 'test Book',
+            description: 'test description',
+            publicationDate: new Date(),
+          },
+          {
+            id: uuidv4(),
+            title: 'test Book 2',
+            description: 'test description 2',
+            publicationDate: new Date(),
+          },
+        ],
+      ];
+      // mock prisma service findMany
+      prismaServiceMock.book.findMany.mockResolvedValue(allbooks);
+      const response = await service.findAll({ limit: 10, page: 1 });
+      expect(response.data).toEqual(allbooks);
+    });
+
+    it('should get all Books by seaerched query', async () => {
+      let query = 'test';
+      let allbooks = [
+        [
+          {
+            id: uuidv4(),
+            title: 'test Book',
+            description: 'test description',
+            publicationDate: new Date(),
+          },
+          {
+            id: uuidv4(),
+            title: 'test Book 2',
+            description: 'test description 2',
+            publicationDate: new Date(),
+          },
+        ],
+      ];
+      // mock prisma service findMany
+      prismaServiceMock.book.findMany.mockResolvedValue(allbooks);
+      const response = await service.search({ limit: 10, page: 1 }, query);
+      expect(response.data).toEqual(allbooks);
+    });
+
+    it('should get empty Books by seaerched query if not found', async () => {
+      let query = 'XXXXXXXXXXXXXXXXXXXXXXXXX';
+      let allbooks = [
+        [
+          {
+            id: uuidv4(),
+            title: 'test Book',
+            description: 'test description',
+            publicationDate: new Date(),
+          },
+          {
+            id: uuidv4(),
+            title: 'test Book 2',
+            description: 'test description 2',
+            publicationDate: new Date(),
+          },
+        ],
+      ];
+      // mock prisma service findMany
+      prismaServiceMock.book.findMany.mockResolvedValue([]);
+      const response = await service.search({ limit: 10, page: 1 }, query);
+      expect(response.data).toEqual([]);
+    });
     it('should throw NotFoundException if a Book not found', async () => {
       let toFoundId = uuidv4();
       // mock prisma service findUnique
