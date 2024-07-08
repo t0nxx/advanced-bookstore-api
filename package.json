@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:reset": "npx prisma db push --force-reset",
-    "db:seed": "npx ts-node prisma/seed.ts"
+    "db:seed": "npm run db:reset && npx ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
