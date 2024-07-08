@@ -32,6 +32,11 @@ describe('BookController', () => {
     expect(spy).toHaveBeenCalledWith({ page: 1, limit: 10 });
   });
 
+  it('should call BookService.search when call findAll', async () => {
+    const spy = jest.spyOn(service, 'search');
+    controller.search({ page: 1, limit: 10 }, 'test');
+    expect(spy).toHaveBeenCalledWith({ page: 1, limit: 10 }, 'test');
+  });
   it('should call BookService.findOne when call findOne', async () => {
     let id = uuidv4();
     const spy = jest.spyOn(service, 'findOne');
