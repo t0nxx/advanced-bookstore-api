@@ -40,6 +40,11 @@ $ npm run db:reset
 ```bash
 $ npm run db:seed
 ```
+- if you seed the data you can auth with this cred
+ email: user1@email.com
+ pass : 123456
+ email: user2@email.com
+ pass : 123456
 
 - run tests
 
